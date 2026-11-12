@@ -1,0 +1,12 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {recommend,validUrl} from '../src/lib.ts';
+import type {Product} from '../src/types.ts';
+const gift=(price:number,extra:Partial<Product>={}):Product=>({id:String(price),price,name:'Тест',category_id:null,description:'',image_url:'',published:true,archived:false,position:0,created_at:'',gift_type:'any',status:'available',links:[],...extra});
+test('empty wishlist remains empty',()=>assert.deepEqual(recommend([],5000),{products:[],nearby:false}));
+test('all affordable gifts, closest first',()=>{const result=recommend([gift(5500),gift(7000),gift(9500)],10000);assert.deepEqual(result.products.map(p=>p.price),[9500,7000,5500]);assert.equal(result.nearby,false)});
+test('nearby example includes all three real matches',()=>{const result=recommend([gift(5500),gift(6000),gift(7000)],5000);assert.deepEqual(result.products.map(p=>p.price),[5500,6000,7000]);assert.equal(result.nearby,true)});
+test('expands for expensive gifts; caps alternatives at six',()=>{const list=Array.from({length:10},(_,i)=>gift(1000000+i));assert.ok(recommend(list,5000).products.length>0);assert.ok(recommend(list,5000).products.length<=6)});
+test('excludes archived, unpublished, reserved and purchased',()=>{const result=recommend([gift(5000,{archived:true}),gift(6000,{published:false}),gift(7000,{status:'reserved'}),gift(8000,{status:'purchased'}),gift(12000)],5000);assert.deepEqual(result.products.map(p=>p.price),[12000])});
+test('exact budget boundary',()=>assert.equal(recommend([gift(5000)],5000).nearby,false));
+test('rejects executable and invalid purchase links',()=>{assert.equal(validUrl('javascript:alert(1)'),false);assert.equal(validUrl('data:text/html,test'),false);assert.equal(validUrl('broken'),false);assert.equal(validUrl('https://kaspi.kz/shop/'),true)});
