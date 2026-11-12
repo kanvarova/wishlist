@@ -1,0 +1,14 @@
+project_id = "wishlist"
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+[db]
+port = 54322
+major_version = 17
+[auth]
+enabled = true
+site_url = "http://localhost:5173"
+enable_signup = false
+[auth.email]
+enable_signup = false
