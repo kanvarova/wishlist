@@ -16,7 +16,7 @@ export function recommend(products:Product[],budget:number){
 }
 export function validUrl(value:string){try {return ['https:','http:'].includes(new URL(value).protocol)}catch{return false}}
 export function safeFavorites():string[]{try{const v=JSON.parse(localStorage.getItem('wishlist-favorites')||'[]');return Array.isArray(v)?v.filter((x:unknown)=>typeof x==='string'):[]}catch{return []}}
-export async function share(url:string,title:string){if(navigator.share){try{await navigator.share({url,title});return 'Отправлено ♡'}catch(e){if((e as Error).name==='AbortError')return '';}}await navigator.clipboard.writeText(url);return 'Ссылка скопирована ♡'}
+export async function share(url:string,title:string){if(navigator.share){try{await navigator.share({url,title});return 'Отправлено'}catch(e){if((e as Error).name==='AbortError')return '';}}await navigator.clipboard.writeText(url);return 'Ссылка скопирована'}
 export async function uploadPhoto(file:File){
   if(!db)throw Error('Сначала подключите базу данных.');
   if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>10*1024*1024)throw Error('Выберите JPG, PNG или WebP до 10 МБ.');
