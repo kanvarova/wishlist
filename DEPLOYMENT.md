@@ -1,20 +1,21 @@
 # Подключённая инфраструктура
 
-- Репозиторий: https://github.com/kanvarova/wishlist — локальная копия клонирована именно из него. Первый коммит создан локально; push требует GitHub-авторизации в среде Codex.
-- Supabase: проект `wishlist`, reference `mpdiqavxbxvgacwegsnd`, организация `karishkaanvarova@gmail.com's Org`, регион Singapore (`ap-southeast-1`). Создан с разрешения владельца для бесплатного использования.
+- Сайт: **https://wishlist-kanvarova.vercel.app**. Проверен 13 ноября 2026 года без login cookies: `/`, `/admin`, прямая gift-ссылка и `/og.png` отвечают HTTPS 200. Браузер загрузил пустой каталог и категории из живой Supabase.
+- Репозиторий: https://github.com/kanvarova/wishlist — полный исходный проект опубликован именно в нём. Локальная main синхронизирована с origin/main. Исходная рабочая версия приложения: `b0fe0a0b0f49863ceb6d13fa22dfc99f40a4762a`.
+- Supabase: проект `wishlist`, reference `mpdiqavxbxvgacwegsnd`, личная организация Free, регион Singapore (`ap-southeast-1`). Создан с разрешения владельца для бесплатного использования.
 - API: https://mpdiqavxbxvgacwegsnd.supabase.co
 - [Панель проекта](https://supabase.com/dashboard/project/mpdiqavxbxvgacwegsnd)
 - Применена миграция `wishlist_initial_schema`, совпадающая с SQL файлом в репозитории. В базе: 0 продуктов, 0 броней, 7 категорий. RLS включён во всех 7 таблицах public.
-- Публичные параметры записаны только в локальную игнорируемую `.env.local`. Для Vercel их ещё нужно добавить через Environment Variables. Публичный ключ можно получить в Supabase → Settings → API Keys. Закрытых ключей в проекте нет.
-- Vercel: подключён Hobby аккаунт, но API ещё требует разрешения для workspace `team_XyCe4hw9XFUyobKsZ6VYVknh`. Production URL пока не получен, deployment не подтверждён.
+- Публичные параметры настроены в локальной игнорируемой `.env.local` и в Vercel Environment Variables. Закрытых ключей в проекте нет. Production Site URL в Supabase настроен на адрес сайта.
+- Владелец создал подтверждённый аккаунт; ему выданы права через закрытую `admin_authorization`. Публичная регистрация отключена; реальный Auth API возвращает `disable_signup: true`.
+- Vercel Hobby: проект `prj_VSyrSji5Mw4kkZKkrSMMt1B3yXGw`, production deployment `dpl_H2C4i899caR8qToh4HnZyiXp785h`, состояние **READY**. Node.js настроен на 24.x. Production открыт посетителям; защита Vercel сохранена для preview.
+- [GitHub Actions](https://github.com/kanvarova/wishlist/actions/runs/43274773023): установка с frozen lockfile, 22 проверки и стандартная Vite production-сборка завершились успешно.
 
-## Обязательные оставшиеся действия владельца
+## Автоматическое развёртывание и приёмка
 
-1. Авторизовать GitHub в Codex с правом push к `kanvarova/wishlist`.
-2. Открыть свежую одноразовую ссылку Vercel из чата и разрешить доступ к workspace. Для привязки Git также дать Vercel GitHub App доступ к существующему репозиторию.
-3. В [Authentication → Users](https://supabase.com/dashboard/project/mpdiqavxbxvgacwegsnd/auth/users) создать свой подтверждённый аккаунт, задавая пароль самостоятельно. Сообщить только email или UUID; пароль не передавать.
-4. В Supabase Authentication → Sign In / Providers выключить «Allow new users to sign up». На момент проверки публичная настройка `disable_signup` была `false`. Даже сейчас самостоятельная регистрация **не даёт административных прав**: таблица разрешений закрыта, авторизованных администраторов пока 0.
-5. Добавить UUID владельца в `admin_authorization` (команда в README). Затем протестировать вход и живые операции управления; для проверки с подарками использовать отдельную тестовую базу, сохранив production пустым.
+1. Публикация выполнена через API из файлов указанного GitHub-коммита. Автоматический Git deploy пока не подключён: Vercel вернул «You need to add a Login Connection to your GitHub account first». Для будущего автоматического деплоя откройте настройки своего аккаунта Vercel → Authentication → Login Connections → GitHub, затем Project → Settings → Git → Connect Git Repository и выберите **kanvarova/wishlist**. Не создавайте новый репозиторий или новый Vercel проект. Содержимое вишлиста уже меняется из панели без Git и пересборки.
+2. Войдите на https://wishlist-kanvarova.vercel.app/admin своим паролем. Пароль выбирал только владелец; агент его не получал. Успешный вход и операции в интерфейсе после него требуют проверки владельцем — они не объявлены проверенными по одному лишь созданию аккаунта.
+3. Проверки с тестовыми подарками выполняются в отдельной тестовой базе. Production оставлен пустым для настоящих подарков владельца. Текущие ограничения проверки перечислены в `VERIFICATION.md`.
 
 ## Проверка облачной безопасности
 

@@ -1,5 +1,9 @@
 # MY WISHLIST ♡ — личный вишлист Карины
 
+**[Открыть сайт](https://wishlist-kanvarova.vercel.app) · [Панель владельца](https://wishlist-kanvarova.vercel.app/admin)**
+
+Для установленной версии начните с панели владельца. Текущая инфраструктура и проверенные результаты описаны в [DEPLOYMENT.md](DEPLOYMENT.md) и [VERIFICATION.md](VERIFICATION.md). Инструкции ниже позволяют воспроизвести установку из репозитория.
+
 Русскоязычный вишлист на React, TypeScript и Vite с Supabase Auth, PostgreSQL и Storage. Создан в существующем репозитории **https://github.com/kanvarova/wishlist**. Нового репозитория не требуется. Цена — в тенге. **В миграциях нет ни одного товара, цены или тестового подарка.** Начальная коллекция пуста.
 
 ## Возможности
